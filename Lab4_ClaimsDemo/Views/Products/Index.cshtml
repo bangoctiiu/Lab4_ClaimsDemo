@@ -1,0 +1,137 @@
+﻿@model IEnumerable<Lab4_ClaimsDemo.Models.Product>
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService Authz
+
+@{
+    ViewData["Title"] = "Danh sách Sản phẩm";
+
+    var isAdmin = User.HasClaim("Admin", "true");
+    var isSales = User.HasClaim("Sales", "true");
+
+    // Quyền thêm sản phẩm (Admin + Sales)
+    var canCreate = isAdmin || isSales;
+
+    // Quyền quản lý sản phẩm (chỉ Admin)
+    var canManage = isAdmin;
+
+    bool isLoggedIn = User?.Identity?.IsAuthenticated ?? false;
+}
+
+<div class="container-fluid px-4 py-5">
+    <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
+        <h1 class="fw-bold display-5 text-gradient mb-0">👕 Shop Quần Áo</h1>
+        <!-- Nút thêm sản phẩm (Admin hoặc Sales) -->
+        @if (canCreate)
+        {
+            <a asp-action="Create" asp-controller="Products" class="btn btn-lg btn-primary shadow-sm px-4 fw-bold">
+                <i class="bi bi-plus-circle-fill me-2"></i>Thêm sản phẩm mới
+            </a>
+        }
+    </div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
+        @foreach (var item in Model)
+        {
+            var displayImage = !string.IsNullOrEmpty(item.MainImage)
+                ? item.MainImage
+                : item.Images.FirstOrDefault()?.ImageUrl ?? "/images/no-image.png";
+
+            <div class="col">
+                <div class="card h-100 product-card">
+                    <div class="product-image-container position-relative">
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            <img src="@displayImage" class="card-img-top product-img" alt="@item.Name" />
+                        </a>
+                        <span class="badge badge-hot position-absolute top-0 start-0 m-2 shadow-sm">
+                            <i class="bi bi-fire"></i> HOT
+                        </span>
+                        <!-- Chỉ Admin mới được sửa/xóa -->
+                        @if (canManage)
+                        {
+                            <div class="admin-actions">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </a>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="card-body d-flex flex-column">
+                        <div class="flex-grow-1">
+                            <h5 class="product-title">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="text-decoration-none">
+                                    @item.Name
+                                </a>
+                            </h5>
+                            <p class="text-muted small">Size: M, L, XL</p>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="price-tag">@item.Price.ToString("N0") đ</span>
+                            @if (!isLoggedIn)
+                            {
+                                <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-sm btn-buy">
+                                    <i class="bi bi-cart-plus-fill"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-sm btn-buy"
+                                        data-bs-toggle="modal" data-bs-target="#qrModal"
+                                        data-name="@item.Name"
+                                        data-price="@item.Price.ToString("N0")"
+                                        data-image="@displayImage">
+                                    <i class="bi bi-cart-plus-fill"></i>
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Modal hiển thị QR / chi tiết sản phẩm -->
+<div class="modal fade" id="qrModal" tabindex="-1" aria-labelledby="qrModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="qrModalLabel">Thông tin sản phẩm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="modalImage" src="" class="img-fluid mb-3" alt="Sản phẩm" style="max-height:200px;" />
+                <h5 id="modalName"></h5>
+                <p class="text-danger fw-bold" id="modalPrice"></p>
+                <div id="qrCodeContainer" class="mt-3"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <a href="#" id="buyNowBtn" class="btn btn-primary">Mua ngay</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        var qrModal = document.getElementById('qrModal');
+        qrModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+
+            var name = button.getAttribute('data-name');
+            var price = button.getAttribute('data-price');
+            var image = button.getAttribute('data-image');
+
+            document.getElementById('modalName').innerText = name;
+            document.getElementById('modalPrice').innerText = price + " đ";
+            document.getElementById('modalImage').src = image;
+
+            // Ví dụ: nếu bạn muốn redirect sang action thanh toán
+            document.getElementById('buyNowBtn').href = '/Products/Checkout?name=' + encodeURIComponent(name);
+        });
+    </script>
+}

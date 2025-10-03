@@ -1,0 +1,167 @@
+﻿@{
+    ViewData["Title"] = "Trang chủ";
+}
+
+<!-- Hero Section -->
+<div class="hero-section text-center text-white d-flex align-items-center justify-content-center">
+    <div class="container">
+        <h1 class="display-2 fw-bolder mb-4 animate-slide-down">Chào mừng đến với E-Shop</h1>
+        <p class="lead mb-5 animate-slide-up">Khám phá xu hướng mua sắm hiện đại cùng ưu đãi hấp dẫn mỗi ngày.</p>
+        <a asp-controller="Products" asp-action="Index" class="btn btn-lg btn-light shadow rounded-pill px-5 py-3 fw-bold hero-btn">
+            <i class="bi bi-bag-check me-2"></i> Bắt đầu mua sắm
+        </a>
+    </div>
+</div>
+
+
+<!-- Products -->
+<div class="bg-light py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">Sản phẩm nổi bật</h2>
+            <p class="text-muted">Những mẫu quần áo hot trend được khách hàng yêu thích nhất</p>
+        </div>
+        <div class="row g-4">
+            <!-- Áo thun -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 product-card-home">
+                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=2000" 
+                         class="card-img-top" alt="Áo thun nam nữ">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-semibold">Áo thun basic unisex</h5>
+                        <p class="card-text text-danger fw-bold fs-5">250.000 đ</p>
+                        <a href="#" class="btn btn-outline-dark stretched-link">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Áo sơ mi -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 product-card-home">
+                    <img src="https://images.unsplash.com/photo-1602810318383-e72903fdda7a?q=80&w=2000" 
+                         class="card-img-top" alt="Áo sơ mi nam">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-semibold">Áo sơ mi công sở</h5>
+                        <p class="card-text text-danger fw-bold fs-5">450.000 đ</p>
+                        <a href="#" class="btn btn-outline-dark stretched-link">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Váy nữ -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 product-card-home">
+                    <img src="https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?q=80&w=2000" 
+                         class="card-img-top" alt="Váy nữ">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-semibold">Váy liền nữ</h5>
+                        <p class="card-text text-danger fw-bold fs-5">690.000 đ</p>
+                        <a href="#" class="btn btn-outline-dark stretched-link">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Quần jeans -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card h-100 product-card-home">
+                    <img src="https://images.unsplash.com/photo-1539990121801-0471a6c5aa53?q=80&w=2000" 
+                         class="card-img-top" alt="Quần jeans">
+                    <div class="card-body text-center">
+                        <h5 class="card-title fw-semibold">Quần jeans thời trang</h5>
+                        <p class="card-text text-danger fw-bold fs-5">520.000 đ</p>
+                        <a href="#" class="btn btn-outline-dark stretched-link">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- CTA -->
+<div class="cta-section text-center py-5 text-white">
+    <div class="container">
+        <h2 class="display-5 fw-bold mb-3">🎉 Siêu sale cuối tuần!</h2>
+        <p class="lead mb-4">Mua sắm ngay hôm nay để nhận ưu đãi <b class="text-warning">đặc biệt</b>.</p>
+        <a asp-controller="Products" asp-action="Index" class="btn btn-lg btn-dark rounded-pill px-5 py-3 fw-bold cta-btn">
+            Khám phá ngay <i class="bi bi-arrow-right-circle"></i>
+        </a>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Hero */
+        .hero-section {
+            height: 85vh;
+            background: linear-gradient(135deg, rgba(0,0,0,0.6), rgba(20,20,20,0.7)), 
+                        url('https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Feature */
+        .feature-card {
+            border-radius: 1rem;
+            padding: 2rem 1rem;
+            background-color: #fff;
+            transition: all 0.3s;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto;
+        }
+
+        /* Product */
+        .product-card-home {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .product-card-home:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 25px rgba(0,0,0,0.15);
+        }
+        .product-card-home img {
+            height: 220px;
+            object-fit: cover;
+            border-radius: 12px 12px 0 0;
+        }
+
+        /* CTA */
+        .cta-section {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+        }
+        .cta-btn:hover {
+            transform: scale(1.08);
+        }
+
+        /* Animation */
+        @@keyframes slideDown {
+            from {opacity: 0; transform: translateY(-40px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        @@keyframes slideUp {
+            from {opacity: 0; transform: translateY(40px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        .animate-slide-down { animation: slideDown 1s ease forwards; }
+        .animate-slide-up { animation: slideUp 1s ease 0.3s forwards; }
+    </style>
+}

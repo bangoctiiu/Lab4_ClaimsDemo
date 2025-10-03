@@ -1,0 +1,56 @@
+﻿@model Lab4_ClaimsDemo.Models.Product
+
+@{
+    ViewData["Title"] = "Xác nhận xoá sản phẩm";
+}
+
+<h1 class="display-6 mb-3">@ViewData["Title"]</h1>
+
+<div class="alert alert-danger d-flex align-items-center p-4" role="alert">
+    <i class="fa-solid fa-triangle-exclamation fa-3x me-4"></i>
+    <div>
+        <h4 class="alert-heading">Hành động nguy hiểm!</h4>
+        <p>Bạn có chắc chắn muốn xoá vĩnh viễn sản phẩm này không? <br/>
+           <strong>Hành động này không thể được hoàn tác.</strong>
+        </p>
+    </div>
+</div>
+
+<div class="card shadow-sm mt-4">
+    <div class="card-header">
+        <h5 class="mb-0">Thông tin chi tiết sản phẩm sẽ bị xóa:</h5>
+    </div>
+    <div class="card-body">
+        <div class="row g-4 align-items-center">
+            <div class="col-md-4 text-center">
+                <img src="@Model.MainImage" alt="Ảnh của @Model.Name" class="img-fluid rounded border p-2" style="max-height: 250px; object-fit: contain;" />
+            </div>
+            <div class="col-md-8">
+                <dl class="row">
+                    <dt class="col-sm-3">Tên sản phẩm:</dt>
+                    <dd class="col-sm-9 fs-5"><strong>@Model.Name</strong></dd>
+
+                    <dt class="col-sm-3">Giá bán:</dt>
+                    <dd class="col-sm-9 fs-5"><strong class="text-danger">@Model.Price.ToString("N0") VNĐ</strong></dd>
+
+                    <dt class="col-sm-3">Mô tả:</dt>
+                    <dd class="col-sm-9">
+                        <p class="mb-0">@Model.Description</p>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form asp-action="Delete" method="post" class="mt-4">
+    <input type="hidden" asp-for="Id" />
+    <div class="d-flex justify-content-end gap-2">
+        <a asp-action="Index" class="btn btn-lg btn-secondary px-4">
+            <i class="fa-solid fa-ban me-2"></i> Huỷ bỏ
+        </a>
+        <button type="submit" class="btn btn-lg btn-danger px-4">
+            <i class="fa-solid fa-trash-can me-2"></i> Vâng, Xoá sản phẩm
+        </button>
+    </div>
+</form>
